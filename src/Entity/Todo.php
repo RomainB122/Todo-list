@@ -28,7 +28,7 @@ class Todo
     private $description;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", name="is_check")  // Si tu veux garder "is_check" dans la base de données
      */
     private $isCheck;
 
@@ -61,11 +61,13 @@ class Todo
         return $this;
     }
 
-    public function isIsCheck(): ?bool
+    // Modification de la méthode getter en getIsCheck()
+    public function getIsCheck(): ?bool
     {
         return $this->isCheck;
     }
 
+    // Méthode setter inchangée
     public function setIsCheck(bool $isCheck): self
     {
         $this->isCheck = $isCheck;

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\Todo;
@@ -39,28 +38,14 @@ class TodoRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Todo[] Returns an array of Todo objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Todo
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    // Nouvelle méthode pour récupérer les tâches non complètes
+    public function findUncompletedTasks(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.isCheck = :false') 
+            ->setParameter('false', false)
+            ->getQuery()
+            ->getResult();
+    }
+    
 }

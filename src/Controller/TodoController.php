@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use App\Entity\Todo;
@@ -18,10 +17,23 @@ class TodoController extends AbstractController
     /**
      * @Route("/", name="app_todo_index", methods={"GET"})
      */
-    public function index(TodoRepository $todoRepository): Response
+    public function index(TodoRepository $todoRepository, Request $request): Response
     {
+        // Récupérer le filtre depuis l'URL (par défaut, il est 'all' si non spécifié)
+        $filter = $request->query->get('filter', 'all');
+
+        // Si le filtre est 'pending', on récupère uniquement les tâches non complètes
+        if ($filter === 'pending') {
+            $todos = $todoRepository->findUncompletedTasks();
+        } else {
+            // Sinon, on récupère toutes les tâches
+            $todos = $todoRepository->findAll();
+        }
+
+        // Retourner la vue en passant les données des tâches et le filtre actif
         return $this->render('todo/index.html.twig', [
-            'todos' => $todoRepository->findAll(),
+            'todos' => $todos,
+            'filter' => $filter, // On passe le filtre à la vue
         ]);
     }
 
