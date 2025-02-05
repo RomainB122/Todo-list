@@ -1,21 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Todo List{% endblock %}
+{% block title %}Liste des Tâches{% endblock %}
 
 {% block body %}
     <h1>Liste des Tâches</h1>
 
-<!-- Formulaire de filtre -->
-<form method="GET" action="{{ path('app_todo_index') }}" class="filter-form">
-    <label for="filter_pending" class="filter-label">
-        <input type="checkbox" name="filter" value="pending" id="filter_pending" {{ filter == 'pending' ? 'checked' : '' }}>
-        Tâches à faire
-    </label>
-    <button type="submit" class="filter-button">Appliquer le filtre</button>
-</form>
-
-
-    
+    <!-- Formulaire de filtre -->
+    <form method="GET" action="{{ path('app_todo_index') }}" class="filter-form">
+        <label for="filter_pending">
+            <input type="checkbox" name="filter" value="pending" id="filter_pending" {{ filter == 'pending' ? 'checked' : '' }}>
+            Tâches à faire
+        </label>
+        <button type="submit">Appliquer le filtre</button>
+    </form>
 
     <!-- Table des tâches -->
     <table>
@@ -25,6 +22,8 @@
                 <th>Nom</th>
                 <th>Description</th>
                 <th>Statut</th>
+                <th>Utilisateurs assignés</th>
+                <th>Catégorie</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -40,13 +39,31 @@
                     </span>
                 </td>
                 <td>
+                    {% if todo.users is not empty %}
+                        <ul>
+                            {% for user in todo.users %}
+                                <li>{{ user.firstname }} {{ user.lastname }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        Aucun utilisateur assigné
+                    {% endif %}
+                </td>
+                <td>
+                    {% if todo.category %}
+                        {{ todo.category.name }}
+                    {% else %}
+                        Aucune catégorie
+                    {% endif %}
+                </td>
+                <td>
                     <a href="{{ path('app_todo_show', {'id': todo.id}) }}" class="btn btn-info">Voir</a>
                     <a href="{{ path('app_todo_edit', {'id': todo.id}) }}" class="btn btn-warning">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5" class="text-center">Aucune tâche trouvée</td>
+                <td colspan="7" class="text-center">Aucune tâche trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
