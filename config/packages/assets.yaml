@@ -1,6 +1,0 @@
-# config/packages/assets.yaml
-assets:
-    # Define a version for your assets (optional, but useful for cache busting)
-    version: '1.0'
-    # Optionally configure a custom base path for your assets
-    # base_path: 'path_to_assets'
