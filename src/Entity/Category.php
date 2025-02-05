@@ -30,7 +30,7 @@ class Category
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=todo::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Todo::class, mappedBy="category")
      */
     private $todo;
 
@@ -69,14 +69,14 @@ class Category
     }
 
     /**
-     * @return Collection<int, todo>
+     * @return Collection<int, Todo>
      */
     public function getTodo(): Collection
     {
         return $this->todo;
     }
 
-    public function addTodo(todo $todo): self
+    public function addTodo(Todo $todo): self
     {
         if (!$this->todo->contains($todo)) {
             $this->todo[] = $todo;
@@ -86,7 +86,7 @@ class Category
         return $this;
     }
 
-    public function removeTodo(todo $todo): self
+    public function removeTodo(Todo $todo): self
     {
         if ($this->todo->removeElement($todo)) {
             // set the owning side to null (unless already changed)
